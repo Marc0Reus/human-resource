@@ -1,0 +1,178 @@
+<% layout('/layouts/default.html', {title: '', bodyClass: ''}){ %>
+<!-- <link rel="stylesheet" href="${ctxStatic}/modules/sys/sysDesktop.css?${_version}"> -->
+<div class="content pb0">
+	
+	<!-- Chart boxes -->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box box-widget">
+				<div class="box-header with-border">
+					<h3 class="box-title">薪酬统计</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+								<i class="fa fa-wrench"></i></button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">导出Excel</a></li>
+								<li><a href="#">导出Word</a></li>
+								<li class="divider"></li>
+								<li><a href="#">基本设置</a></li>
+							</ul>
+						</div>
+						<button type="button" class="btn btn-box-tool" data-widget="remove">
+							<i class="fa fa-times"></i>
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-5">
+							<div class="chart">
+								<div id="myChart" style="height:350px;width:99%"></div>
+								<script src="http://echarts.baidu.com/dist/echarts.common.min.js"></script>
+								<script>
+									var option = {
+									    title : {
+									        text: '薪酬区间分布'
+									    },
+									    tooltip : {
+									        trigger: 'axis'
+									    },
+									    legend: {
+									        data:['1']
+									    },
+									    toolbox: {
+									        show : true,
+									        feature : {
+									            mark : {show: true},
+									            dataView : {show: true, readOnly: false},
+									            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+									            restore : {show: true},
+									            saveAsImage : {show: true}
+									        }
+									    },
+									    calculable : true,
+									    grid : {
+									    	top: '49',
+									    	right: '20',
+									    	bottom: '30'
+									    },
+									    xAxis : [
+									        {
+									            type : 'category',
+									            boundaryGap : false,
+									            data : ['4000以下','4001~6000','6001~8000','8001~10000','10001~12000','12000~15000','15000以上']
+									        }
+									    ],
+									    yAxis : [
+									        {
+									            type : 'value'
+									        }
+									    ],
+									    series : [
+									        {
+									            name:'人数',
+									            type:'line',
+									            smooth:true,
+									            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+									            data:[${p1},${p2},${p3},${p4},${p5},${p6},${p7} ]
+									        },
+			
+									     ]
+									};
+									// 基于准备好的dom，初始化echarts实例
+							        var myChart = echarts.init(document.getElementById('myChart'));
+							        myChart.setOption(option);
+								</script>
+							</div>
+						</div>
+						<div class="col-md-1">
+						</div>
+						<div class="col-md-6">
+							<div class="chart">
+								<div id="myChart2" style="height:450px;width:99%"></div>
+								<script src="http://echarts.baidu.com/dist/echarts.common.min.js"></script>
+								<script>
+									var option = {
+										    title : {
+										        text: '薪酬杂项总和',
+										        
+										        x:'center'
+										    },
+										    tooltip: {
+										        trigger: 'item',
+										        formatter: "{a} <br/>{b}: {c} ({d}%)"
+										    },
+										    legend: {
+										        orient: 'vertical',
+										        x: 'left',
+										        data:['浮动工资','奖金','个人所得税','实发工资','公积金','社保','公积金个人部分','公积金公司部分','社保个人部分','社保公司部分']
+										    },
+										    series: [
+										        {
+										            name:'薪酬杂项',
+										            type:'pie',
+										            selectedMode: 'single',
+										            radius: [0, '40%'],
+
+										            label: {
+										                normal: {
+										                    position: 'inner'
+										                }
+										            },
+										            labelLine: {
+										                normal: {
+										                    show: false
+										                }
+										            },
+										            data:[
+										                {value:${float1}, name:'浮动工资'},
+										                {value:${bouns}, name:'奖金'},
+										                {value:${tax}, name:'个人所得税'},
+										                {value:${pay}, name:'实发工资',selected:true},
+										                {value:${fund}, name:'公积金'},
+										                {value:${s}, name:'社保'},
+										            ]
+										        },
+										        {
+										            name:'薪酬杂项',
+										            type:'pie',
+										            radius: ['50%', '70%'],
+										        
+										            data:[
+										                {value:${float1}, name:'浮动工资'},
+										                {value:${bouns}, name:'奖金'},
+										                {value:${tax}, name:'个人所得税'},
+										                {value:${pay}, name:'实发工资'},
+										                {value:${fundemp}, name:'公积金个人部分'},
+										                {value:${fundcom}, name:'公积金公司部分'},
+										                {value:${semp}, name:'社保个人部分'},
+										                {value:${scom}, name:'社保公司部分'}
+										            ]
+										        }
+										    ]
+										};
+									// 基于准备好的dom，初始化echarts实例
+							        var myChart2 = echarts.init(document.getElementById('myChart2'));
+							        myChart2.setOption(option);
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% } %>
+<script>
+$(window).resize(function(){
+	var footerHeight  = $('.main-footer').outerHeight() || 0;
+	var windowHeight  = $(window).height();
+	$('.content').css('min-height', windowHeight - footerHeight)
+}).resize();
+</script>

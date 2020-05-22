@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.hr.dao.HrPaysinfoDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="HrPaysinfo">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<select id="findEmp" resultType="String">
+		select idcard from hr_emp where wno=#{wno}
+	</select>
+
+<select id="paysRangeMin" resultType="Integer">
+	select count(*) from hr_paysinfo where paybase &lt;=#{min}
+</select>
+
+<select id="paysRangeMax" resultType="Integer">
+	select count(*) from hr_paysinfo where paybase &gt;#{max}
+</select>
+
+<select id="paysRange" resultType="Integer" >
+	select count(*) from hr_paysinfo where paybase &gt;#{num1} and paybase &lt;=#{num2}
+</select>
+
+<select id="taxCount" resultType="Double" >
+	select sum(tax) from hr_paysinfo 
+</select>
+
+<select id="floatCount" resultType="Double" >
+	select sum(payfloat) from hr_paysinfo 
+</select>
+
+<select id="bounsCount" resultType="Double" >
+	select sum(bouns) from hr_paysinfo 
+</select>
+
+<select id="sempCount" resultType="Double" >
+	select sum(semp) from hr_paysinfo 
+</select>
+
+<select id="scomCount" resultType="Double" >
+	select sum(scom) from hr_paysinfo 
+</select>
+
+<select id="fundempCount" resultType="Double" >
+	select sum(fundemp) from hr_paysinfo 
+</select>
+
+<select id="fundcomCount" resultType="Double" >
+	select sum(fundcom) from hr_paysinfo 
+</select>
+
+<select id="payCount" resultType="Double" >
+	select sum(pay) from hr_paysinfo 
+</select>
+
+</mapper>
